@@ -1,0 +1,6 @@
+@import '~antd/dist/antd.css';
+
+.app{
+    background-color: violet;
+    height: 100vh;
+}
