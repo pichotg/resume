@@ -1,5 +1,7 @@
 # wikiapp
 
+Project Structure genereted with [goxygen](https://github.com/Shpota/goxygen)
+
 ## Environment setup
 
 You need to have [Go](https://golang.org/),
@@ -18,16 +20,11 @@ docker --version
 docker-compose --version
 ```
 
-If you are using Windows you will also need
-[gcc](https://gcc.gnu.org/). It comes installed
-on Mac and almost all Linux distributions.
-
 ## Start in development mode
 
-In the project directory run the command (you might
-need to prepend it with `sudo` depending on your setup):
+In the project directory run the command :
 ```sh
-docker-compose -f docker-compose-dev.yml up
+docker-compose -f docker-compose-dev.yml up --force-recreate --renew-anon-volumes
 ```
 
 This starts a local MongoDB on `localhost:27017`.
