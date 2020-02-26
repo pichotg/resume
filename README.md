@@ -1,4 +1,4 @@
-# wikiapp
+# # Personnal Resume
 
 Project Structure genereted with [goxygen](https://github.com/Shpota/goxygen)
 
