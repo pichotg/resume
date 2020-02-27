@@ -10,43 +10,45 @@ import (
 )
 
 type DB interface {
-	GetTimeLines() ([]*model.TimeLine, error)
+	GetExperiences() ([]*model.Experience, error)
+	GetFormations() ([]*model.Formation, error)
 }
-
 type MongoDB struct {
-	collection *mongo.Collection
+	collections map[string]*mongo.Collection
 }
 
 func NewMongo(client *mongo.Client) DB {
-	timeline := client.Database("wiki").Collection("timeline")
-	return MongoDB{collection: timeline}
+	collections := make(map[string]*mongo.Collection)
+	collections["formation"] = client.Database("wiki").Collection("formation")
+	collections["experience"] = client.Database("wiki").Collection("experience")
+	return MongoDB{collections}
 }
 
-func (m MongoDB) GetTimeLines() ([]*model.TimeLine, error) {
-	res, err := m.collection.Find(context.TODO(), bson.M{})
+func (m MongoDB) GetFormations() ([]*model.Formation, error) {
+	res, err := m.collections["formation"].Find(context.TODO(), bson.M{})
 	if err != nil {
-		log.Println("Error while fetching technologies:", err.Error())
+		log.Println("Error while fetching Formation:", err.Error())
 		return nil, err
 	}
-	var tech []*model.TimeLine
+	var tech []*model.Formation
 	err = res.All(context.TODO(), &tech)
 	if err != nil {
-		log.Println("Error while decoding technologies:", err.Error())
+		log.Println("Error while decoding Formation:", err.Error())
 		return nil, err
 	}
 	return tech, nil
 }
 
-func (m MongoDB) PUTimeLine() ([]*model.TimeLine, error) {
-	res, err := m.collection.Find(context.TODO(), bson.M{})
+func (m MongoDB) GetExperiences() ([]*model.Experience, error) {
+	res, err := m.collections["experience"].Find(context.TODO(), bson.M{})
 	if err != nil {
-		log.Println("Error while fetching technologies:", err.Error())
+		log.Println("Error while fetching experience:", err.Error())
 		return nil, err
 	}
-	var tech []*model.TimeLine
+	var tech []*model.Experience
 	err = res.All(context.TODO(), &tech)
 	if err != nil {
-		log.Println("Error while decoding technologies:", err.Error())
+		log.Println("Error while decoding experience:", err.Error())
 		return nil, err
 	}
 	return tech, nil

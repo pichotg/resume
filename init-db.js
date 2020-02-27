@@ -1,21 +1,32 @@
-db.timeline.insert({
-    "title": "BAC STI2D",
-    "periode": "2014 - 2015",
-    "subtitle": "optin",
-    "description": "Bac science et technologique"
+db.formation.insert({
+    "formation": "BAC STI2D",
+    "detail": "Sciences et technologies de l'industrie et du développement durable",
+    "periode": "2014 - 2016",
+    "description": "Option Systèmes d'information et numérique (SIN)",
+    "tags" : [
+        "javascript",
+        "html",
+        "css",
+        "C++"
+    ]
+});
+db.formation.insert({
+    "formation": "BTS SIO option SLAM",
+    "detail": "BTS Services informatiques aux organisations option Solutions logicielles et applications métiers",
+    "periode": "2016 - 2018",
+    "description": "Bac science et technologique",
+    "tags" : [
+        "silex",
+        "mysql",
+        "Plsql",
+        "MongoDB"
+    ]
 });
 
-db.timeline.insert({
-    "title": "BTS SIO",
-    "periode": "2016 - 2017",
-    "subtitle": "option Sin",
-    "description": "Bac science et technologique"
-});
-
-db.timeline.insert({
-    "title": "ENI CDA",
+db.formation.insert({
+    "formation": "ENI CDA",
+    "detail": "Concepteur Développeur d'Applications",
     "periode": "2018 - 2020",
-    "subtitle": "Concepteur Développeur d'Applications",
     "description": "alternance eni",
     "programme": [
         "Le langage de requête SQL avec SQL Server",
@@ -37,10 +48,30 @@ db.timeline.insert({
     ],
 });
 
-db.timeline.insert({
-    "title": "dévlopper full-stack",
+db.experience.insert({
+    "entreprise" : "Strigi-Form",
+    "poste": "Dévlopper full-stack",
     "periode": "2018 - 2020",
-    "subtitle": "Strigi-Form",
-    "description": "Bac science et technologique",
-    "now": true
+    "description": "réaslisaion doc",
+    "adresse" : "futuroscop Centre des entreprise innovantes",
+    "tags" : [
+        "golang",
+        "webpack",
+        "node.js",
+        "influxDB",
+        "sass"
+    ],
+});
+
+db.experience.insert({
+    "entreprise" : "IANESCO SAS",
+    "poste": "Dévlopper full-stack",
+    "periode": "2016 - 2020",
+    "description": "réaslisaion doc",
+    "adresse" : "CHU",
+    "tags" : [
+        "electron.js",
+        "node.js",
+        "sass"
+    ],
 });

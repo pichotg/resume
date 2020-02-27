@@ -17,11 +17,14 @@ func NewApp(d db.DB, cors bool) App {
 		d:        d,
 		handlers: make(map[string]http.HandlerFunc),
 	}
-	timelineHandler := app.GetTimelines
+	experiencesHandler := app.GetExperiences
+	formationsHandler := app.GetFormations
 	if !cors {
-		timelineHandler = disableCors(timelineHandler)
+		experiencesHandler = disableCors(experiencesHandler)
+		formationsHandler = disableCors(formationsHandler)
 	}
-	app.handlers["/api/timelines"] = timelineHandler
+	app.handlers["/api/experiences"] = experiencesHandler
+	app.handlers["/api/formations"] = formationsHandler
 	app.handlers["/"] = http.FileServer(http.Dir("/webapp")).ServeHTTP
 	return app
 }
@@ -32,19 +35,6 @@ func (a *App) Serve() error {
 	}
 	log.Println("Web server is available on port 8080")
 	return http.ListenAndServe(":8080", nil)
-}
-
-func (a *App) GetTimelines(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	timelines, err := a.d.GetTimeLines()
-	if err != nil {
-		sendErr(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-	err = json.NewEncoder(w).Encode(timelines)
-	if err != nil {
-		sendErr(w, http.StatusInternalServerError, err.Error())
-	}
 }
 
 func sendErr(w http.ResponseWriter, code int, message string) {
