@@ -19,12 +19,15 @@ func NewApp(d db.DB, cors bool) App {
 	}
 	experiencesHandler := app.GetExperiences
 	formationsHandler := app.GetFormations
+	techHandler := app.GetTechnologies
 	if !cors {
 		experiencesHandler = disableCors(experiencesHandler)
 		formationsHandler = disableCors(formationsHandler)
+		techHandler = disableCors(techHandler)
 	}
 	app.handlers["/api/experiences"] = experiencesHandler
 	app.handlers["/api/formations"] = formationsHandler
+	app.handlers["/api/technologies"] = techHandler
 	app.handlers["/"] = http.FileServer(http.Dir("/webapp")).ServeHTTP
 	return app
 }

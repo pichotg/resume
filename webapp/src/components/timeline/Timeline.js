@@ -68,23 +68,24 @@ export class Timeline extends Component {
       <div className={styles.Timeline} data-testid="Timeline">
         <Row gutter={[16, 32]} type="flex" justify="space-between" align="top">
           <Col span={11}>
-            <h2 style={{ textAlign: "center" }}>Expericences</h2>
+            <h2 style={{ textAlign: "center" }}>Formations</h2>
           </Col>
           <Col span={11}>
-            <h2 style={{ textAlign: "center" }}>Formations</h2>
+            <h2 style={{ textAlign: "center" }}>Expericences</h2>
           </Col>
         </Row>
         <Row gutter={[16, 32]} type="flex" justify="space-between" align="top" >
           <Col span={11}>
-            <TimelineAntd mode="right"
+            <TimelineAntd style={{ marginLeft: 50, marginRight: 50 }}
+              reverse={true}
             >
-              {experience_item}
+              {formation_item}
             </TimelineAntd>
           </Col>
           <Col span={11}>
-            <TimelineAntd
+            <TimelineAntd style={{ marginLeft: 50, marginRight: 50 }}
             >
-              {formation_item}
+              {experience_item}
             </TimelineAntd>
           </Col>
         </Row>
@@ -100,9 +101,6 @@ export class Timeline extends Component {
     API.get('/formations')
       .then(response => this.setState({ formation_item: response.data }))
       .catch(err => error(err.toString()));
-
-    
-
   }
 
 };

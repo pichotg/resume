@@ -3,7 +3,7 @@ services:
   dev_db:
     image: mongo:4.2.3
     environment:
-      MONGO_INITDB_DATABASE: wiki
+      MONGO_INITDB_DATABASE: resume
     ports:
       - 27017:27017
     volumes:

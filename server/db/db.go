@@ -12,6 +12,7 @@ import (
 type DB interface {
 	GetExperiences() ([]*model.Experience, error)
 	GetFormations() ([]*model.Formation, error)
+	GetTechnologies() ([]*model.Technologie, error)
 }
 type MongoDB struct {
 	collections map[string]*mongo.Collection
@@ -19,8 +20,9 @@ type MongoDB struct {
 
 func NewMongo(client *mongo.Client) DB {
 	collections := make(map[string]*mongo.Collection)
-	collections["formation"] = client.Database("wiki").Collection("formation")
-	collections["experience"] = client.Database("wiki").Collection("experience")
+	collections["formation"] = client.Database("resume").Collection("formation")
+	collections["experience"] = client.Database("resume").Collection("experience")
+	collections["technologie"] = client.Database("resume").Collection("technologie")
 	return MongoDB{collections}
 }
 
@@ -49,6 +51,21 @@ func (m MongoDB) GetExperiences() ([]*model.Experience, error) {
 	err = res.All(context.TODO(), &tech)
 	if err != nil {
 		log.Println("Error while decoding experience:", err.Error())
+		return nil, err
+	}
+	return tech, nil
+}
+
+func (m MongoDB) GetTechnologies() ([]*model.Technologie, error) {
+	res, err := m.collections["technologie"].Find(context.TODO(), bson.M{})
+	if err != nil {
+		log.Println("Error while fetching technologies:", err.Error())
+		return nil, err
+	}
+	var tech []*model.Technologie
+	err = res.All(context.TODO(), &tech)
+	if err != nil {
+		log.Println("Error while decoding technologies:", err.Error())
 		return nil, err
 	}
 	return tech, nil

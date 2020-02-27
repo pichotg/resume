@@ -1,0 +1,35 @@
+@import '~antd/dist/antd.css';
+
+.app {
+    height: 100vh;
+}
+
+.heading {
+    height: 400px;
+    width: "100%";
+    line-height: 50px;
+    margin-bottom: 15px;
+    margin-top: 2px;
+
+    div {
+        background: inherit;
+        padding-top: 50px;
+        padding-left: 50px;
+        
+        h1 {
+            font-size: 45px;
+            letter-spacing: -2px;
+            font-weight: 800;
+            vertical-align: middle;
+            color: white !important;
+        }
+        
+        h3 {
+            font-size: 30px;
+            letter-spacing: -2px;
+            font-weight: 700;
+            vertical-align: middle;
+            color: white !important;
+        }
+    }
+}
