@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import styles from './Timeline.module.css';
+import styles from './Timeline.css';
 import API from '../../utils/API'
 import { Timeline as TimelineAntd, Tag, Select, Row, Col, message } from 'antd';
-
+const error = (err) => {
+  message.destroy()
+  message.error(err);
+};
 export class Timeline extends Component {
   state = {
     experience_item: [],
@@ -18,6 +21,7 @@ export class Timeline extends Component {
       return liste_tags
     }
   };
+
   renderProgrammes(programme) {
     if (programme) {
       return (
@@ -30,6 +34,9 @@ export class Timeline extends Component {
       );
     }
   }
+  messageError(err) {
+    message.info(err)
+  }
 
   render() {
     const experience_item = this.state.experience_item.map((experience) =>
@@ -37,10 +44,8 @@ export class Timeline extends Component {
         {experience.periode}
         <h3>{experience.poste}</h3>
         <h4>{experience.entreprise}</h4>
-        <p>
-          {experience.description}
-          {experience.adresse}
-        </p>
+        <p>{experience.description}</p>
+        <p>{experience.adresse}</p>
         {this.renderTags(experience.tags)}
       </TimelineAntd.Item>
     );
@@ -88,18 +93,16 @@ export class Timeline extends Component {
   };
 
   componentDidMount() {
-    API.get('/experiences').then(resp => this.setState({
-      experience_item: resp.data
-    })).catch(
-      error => console.error(error, 2)
-    );
+    API.get('/experiences')
+      .then(response => this.setState({ experience_item: response.data }))
+      .catch(err => error(err.toString()));
 
     API.get('/formations')
-      .then(resp => this.setState({
-        formation_item: resp.data
-      })).catch(
-        error => console.error(error, 2)
-      );;
+      .then(response => this.setState({ formation_item: response.data }))
+      .catch(err => error(err.toString()));
+
+    
+
   }
 
 };
