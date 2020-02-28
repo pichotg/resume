@@ -8,8 +8,8 @@ import (
 	"github.com/pichotg/resume/server/model"
 )
 
-func GetTechnologies(c echo.Context) error {
-	var techs []model.Technologie
-	db.Manager().Find(&techs)
-	return c.JSON(http.StatusOK, techs)
+func GetFormations(c echo.Context) error {
+	var data []model.Formation
+	db.Manager().Find(&data)
+	return c.JSON(http.StatusOK, data)
 }

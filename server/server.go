@@ -16,7 +16,7 @@ func main() {
 	flag.Parse()
 
 	db.New(*debug)
-	route := routes.Init()
+	route := routes.Start(*debug)
 
 	if *fixtures {
 		manager := db.Manager()

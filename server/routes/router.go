@@ -6,10 +6,12 @@ import (
 	"github.com/pichotg/resume/server/api"
 )
 
-func Init() *echo.Echo {
+func Start(debug bool) *echo.Echo {
 	e := echo.New()
-	e.Use(middleware.Logger())
-	e.Use(middleware.CORS())
+	if debug {
+		e.Use(middleware.Logger())
+		e.Use(middleware.CORS())
+	}
 
 	e.GET("/api/technologies", api.GetTechnologies)
 
