@@ -1,37 +1,32 @@
 package main
 
 import (
-	"context"
-	"log"
-	"os"
-	"wikiapp/db"
-	"wikiapp/web"
+	"flag"
 
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"github.com/pichotg/resume/server/model"
+	"github.com/pichotg/resume/server/routes"
+
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/pichotg/resume/server/db"
 )
 
 func main() {
-	client, err := mongo.Connect(context.TODO(), clientOptions())
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer client.Disconnect(context.TODO())
-	mongoDB := db.NewMongo(client)
+	debug := flag.Bool("debug", true, "log database")
+	fixtures := flag.Bool("f", true, "load fixtures")
+	flag.Parse()
 
-	// CORS is enabled only in prod profile
-	cors := os.Getenv("profile") == "prod"
-	app := web.NewApp(mongoDB, cors)
-	err = app.Serve()
-	log.Println("Error", err)
-}
+	db.New(*debug)
+	route := routes.Init()
 
-func clientOptions() *options.ClientOptions {
-	host := "db"
-	if os.Getenv("profile") != "prod" {
-		host = "localhost"
+	if *fixtures {
+		manager := db.Manager()
+		for i := 0; i < 10; i++ {
+			tech := model.Technologie{Name: "go", Details: "An open source programming language that makes it easy to build simple and efficient software."}
+			if manager.NewRecord(tech) {
+				manager.Create(&tech)
+			}
+		}
 	}
-	return options.Client().ApplyURI(
-		"mongodb://" + host + ":27017",
-	)
+
+	route.Logger.Fatal(route.Start(":8080"))
 }

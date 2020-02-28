@@ -1,11 +1,14 @@
 package model
 
+import "github.com/jinzhu/gorm"
+
 type Formation struct {
-	Formation   string   `json:"formation,omitempty"`
-	Detail      string   `json:"detail,omitempty"`
-	Periode     string   `json:"periode,omitempty"`
-	Description string   `json:"description,omitempty"`
-	Adresse     string   `json:"adresse,omitempty"`
-	Programme   []string `json:"programme,omitempty"`
-	Tags        []string `json:"tags,omitempty"`
+	gorm.Model
+	Formation   string `json:"formation"`
+	Detail      string `json:"detail"`
+	Periode     string `json:"periode"`
+	Description string `json:"description"`
+	Adresse     string `json:"adresse"`
+	// Programme   []string `json:"programme"`
+	// Tags        []string `json:"tags"`
 }

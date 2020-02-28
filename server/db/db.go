@@ -1,72 +1,29 @@
 package db
 
 import (
-	"context"
-	"log"
-	"wikiapp/model"
-
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
+	"github.com/jinzhu/gorm"
+	"github.com/pichotg/resume/server/model"
 )
 
-type DB interface {
-	GetExperiences() ([]*model.Experience, error)
-	GetFormations() ([]*model.Formation, error)
-	GetTechnologies() ([]*model.Technologie, error)
-}
-type MongoDB struct {
-	collections map[string]*mongo.Collection
+var db *gorm.DB
+var err error
+
+func New(log bool) {
+
+	db, err = gorm.Open("sqlite3", ":memory:")
+	if err != nil {
+		panic(err)
+	}
+	db.LogMode(log)
+
+	db.AutoMigrate(
+		&model.User{},
+		&model.Technologie{},
+		&model.Experience{},
+		&model.Formation{},
+	)
 }
 
-func NewMongo(client *mongo.Client) DB {
-	collections := make(map[string]*mongo.Collection)
-	collections["formation"] = client.Database("resume").Collection("formation")
-	collections["experience"] = client.Database("resume").Collection("experience")
-	collections["technologie"] = client.Database("resume").Collection("technologie")
-	return MongoDB{collections}
-}
-
-func (m MongoDB) GetFormations() ([]*model.Formation, error) {
-	res, err := m.collections["formation"].Find(context.TODO(), bson.M{})
-	if err != nil {
-		log.Println("Error while fetching Formation:", err.Error())
-		return nil, err
-	}
-	var tech []*model.Formation
-	err = res.All(context.TODO(), &tech)
-	if err != nil {
-		log.Println("Error while decoding Formation:", err.Error())
-		return nil, err
-	}
-	return tech, nil
-}
-
-func (m MongoDB) GetExperiences() ([]*model.Experience, error) {
-	res, err := m.collections["experience"].Find(context.TODO(), bson.M{})
-	if err != nil {
-		log.Println("Error while fetching experience:", err.Error())
-		return nil, err
-	}
-	var tech []*model.Experience
-	err = res.All(context.TODO(), &tech)
-	if err != nil {
-		log.Println("Error while decoding experience:", err.Error())
-		return nil, err
-	}
-	return tech, nil
-}
-
-func (m MongoDB) GetTechnologies() ([]*model.Technologie, error) {
-	res, err := m.collections["technologie"].Find(context.TODO(), bson.M{})
-	if err != nil {
-		log.Println("Error while fetching technologies:", err.Error())
-		return nil, err
-	}
-	var tech []*model.Technologie
-	err = res.All(context.TODO(), &tech)
-	if err != nil {
-		log.Println("Error while decoding technologies:", err.Error())
-		return nil, err
-	}
-	return tech, nil
+func Manager() *gorm.DB {
+	return db
 }

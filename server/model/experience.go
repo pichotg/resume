@@ -1,10 +1,13 @@
 package model
 
+import "github.com/jinzhu/gorm"
+
 type Experience struct {
-	Poste       string   `json:"poste,omitempty"`
-	Entreprise  string   `json:"entreprise,omitempty"`
-	Periode     string   `json:"periode,omitempty"`
-	Description string   `json:"description,omitempty"`
-	Tags        []string `json:"tags,omitempty"`
-	Adresse     string   `json:"adresse,omitempty"`
+	gorm.Model
+	Poste       string `json:"poste"`
+	Entreprise  string `json:"entreprise"`
+	Periode     string `json:"periode"`
+	Description string `json:"description"`
+	// Tags        []string `json:"tags"`
+	Adresse string `json:"adresse"`
 }
