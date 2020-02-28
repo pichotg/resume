@@ -68,24 +68,25 @@ export class Timeline extends Component {
       <div className={styles.Timeline} data-testid="Timeline">
         <Row gutter={[16, 32]} type="flex" justify="space-between" align="top">
           <Col span={11}>
-            <h2 style={{ textAlign: "center" }}>Formations</h2>
+            <h2 style={{ textAlign: "center" }}>Expericences</h2>
           </Col>
           <Col span={11}>
-            <h2 style={{ textAlign: "center" }}>Expericences</h2>
+            <h2 style={{ textAlign: "center" }}>Formations</h2>
           </Col>
         </Row>
         <Row gutter={[16, 32]} type="flex" justify="space-between" align="top" >
           <Col span={11}>
-            <TimelineAntd style={{ marginLeft: 50, marginRight: 50 }}
+            <TimelineAntd
               reverse={true}
+              mode="right"
             >
-              {formation_item}
+              {experience_item}
             </TimelineAntd>
           </Col>
           <Col span={11}>
-            <TimelineAntd style={{ marginLeft: 50, marginRight: 50 }}
+            <TimelineAntd
             >
-              {experience_item}
+              {formation_item}
             </TimelineAntd>
           </Col>
         </Row>
