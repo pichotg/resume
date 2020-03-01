@@ -9,11 +9,19 @@ import (
 func Start(debug bool) *echo.Echo {
 	e := echo.New()
 	if debug {
-		e.Use(middleware.Logger())
+		e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+			Format: "method=${method}, uri=${uri}, status=${status}\n",
+		}))
 		e.Use(middleware.CORS())
 	}
 
-	e.GET("/api/technologies", api.GetTechnologies)
+	API := e.Group("api")
+	API.POST("/login", api.Login)
+	API.GET("/technologies", api.GetTechnologies)
+
+	admin := API.Group("/admin")
+	admin.Use(middleware.JWT([]byte("secret")))
+	admin.GET("/technologies", api.GetTechnologies)
 
 	return e
 }

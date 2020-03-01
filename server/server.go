@@ -17,7 +17,6 @@ func main() {
 
 	db.New(*debug)
 	route := routes.Start(*debug)
-
 	if *fixtures {
 		manager := db.Manager()
 		for i := 0; i < 10; i++ {
